@@ -26,8 +26,9 @@
                     <form id="formLink">
                         <input type="hidden" id="id" name="id">
                         <div class="mb-3">
-                            <label for="web_link" class="form-label">Link Web</label>
-                            <input type="text" class="form-control" id="web_link" name="web_link" required>
+                            <label for="web_link" class="form-label">URL</label>
+                            <input type="text" class="form-control" id="web_link" name="web_link" placeholder="URL berisi respon dari git pull (shell_exec)" required>
+                            <small class="text-muted">contoh: https://pull.arizkinewbie.com/pull.php</small>
                         </div>
                         <div class="mb-3">
                             <label for="status" class="form-label">Status</label>
