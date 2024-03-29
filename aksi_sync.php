@@ -1,6 +1,7 @@
 <?php
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $url = $_POST['url'];
+    $id = $_POST['id'];
     // Melakukan permintaan cURL ke URL yang diberikan
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -33,6 +34,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         // Mengembalikan pesan "Sync gagal!"
         echo "Sync gagal!";
+        // Buka data.json cari ID dan Ganti status dari active ke inactive 
+        $data = json_decode(file_get_contents('data.json'), true);
+        foreach ($data as &$item) {
+            if ($item['id'] == $id) {
+                $item['status'] = 'inactive';
+                break;
+            }
+        }
+        file_put_contents('data.json', json_encode($data, JSON_PRETTY_PRINT));
+        
     }
 }
 ?>

@@ -66,7 +66,7 @@
                     html += "<td>" + value.id + "</td>";
                     html += "<td><a href='" + value.web_link + "' target='_blank'>" + value.web_link + "</a></td>";
                     html += "<td>" + value.status + "</td>";
-                    html += "<td style='white-space: nowrap;'><a href='#' class='btn btn-success btn-sync' data-link='" + value.web_link + "'>Sync</a> <a href='#' class='btn btn-primary btn-edit' data-id='" + value.id + "' data-link='" + value.web_link + "' data-status='" + value.status + "'>Edit</a> <a href='#' class='btn btn-danger btn-delete' data-id='" + value.id + "'>Hapus</a></td>";
+                    html += "<td style='white-space: nowrap;'><a href='#' class='btn btn-success btn-sync' data-id='" + value.id + "' data-link='" + value.web_link + "'>Sync</a> <a href='#' class='btn btn-primary btn-edit' data-id='" + value.id + "' data-link='" + value.web_link + "' data-status='" + value.status + "'>Edit</a> <a href='#' class='btn btn-danger btn-delete' data-id='" + value.id + "'>Hapus</a></td>";
                     html += "</tr>";
                 });
                 html += "</tbody></table>";
@@ -144,17 +144,24 @@
         // Sync
         $(document).on('click', '.btn-sync', function() {
             var url = $(this).data('link');
+            var id = $(this).data('id');
             $.ajax({
                 type: 'POST',
                 url: 'aksi_sync.php',
                 data: {
-                    url: url
+                    url: url,
+                    id: id
                 },
                 success: function(response) {
                     alert(response);
                     loadData();
                 }
             });
+        });
+
+        // Sync All (Active)
+        $('#syncAllActive').click(function() {
+            alert('coming soon...');
         });
     </script>
 </body>
