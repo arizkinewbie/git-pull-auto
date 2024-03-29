@@ -1,11 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Git Pull Automation Management</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap5.min.css">
 </head>
+
 <body>
     <div class="container">
         <h1>GIT Pull Automation Management</h1>
@@ -44,28 +48,40 @@
             </div>
         </div>
     </div>
-
+    <!-- jQuery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- DataTables JS -->
+    <script type="text/javascript" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap5.min.js"></script>
     <script>
         // Fungsi untuk menampilkan data dari JSON
-        function loadData() {
+        const loadData = () => {
             $.getJSON("data.json", function(data) {
-                var html = "<table class='table'>";
-                html += "<thead><tr><th>ID</th><th>Link Web</th><th>Status</th><th>Action</th><th>Sync</th></tr></thead><tbody>";
+                var html = "<table id='usersTable' class='table table-striped' style='width:100%;'>";
+                html += "<thead><tr><th>ID</th><th>Link Website</th><th>Status</th><th>Action</th></tr></thead><tbody>";
                 $.each(data, function(key, value) {
                     html += "<tr>";
-                    html += "<td>"+value.id+"</td>";
-                    html += "<td>"+value.web_link+"</td>";  
-                    html += "<td>"+value.status+"</td>";
-                    html += "<td><a href='#' class='btn btn-primary btn-edit' data-id='"+value.id+"' data-link='"+value.web_link+"' data-status='"+value.status+"'>Edit</a> <a href='#' class='btn btn-danger btn-delete' data-id='"+value.id+"'>Hapus</a></td>";
-                    html += "<td><button class='btn btn-success btn-sync' data-link='"+value.web_link+"'>Sync</button></td>";
+                    html += "<td>" + value.id + "</td>";
+                    html += "<td>" + value.web_link + "</td>";
+                    html += "<td>" + value.status + "</td>";
+                    html += "<td style='white-space: nowrap;'><a href='#' class='btn btn-success btn-sync' data-link='" + value.web_link + "'>Sync</a> <a href='#' class='btn btn-primary btn-edit' data-id='" + value.id + "' data-link='" + value.web_link + "' data-status='" + value.status + "'>Edit</a> <a href='#' class='btn btn-danger btn-delete' data-id='" + value.id + "'>Hapus</a></td>";
                     html += "</tr>";
                 });
                 html += "</tbody></table>";
                 $('#dataContainer').html(html);
+
+                // Inisialisasi DataTables
+                $('#usersTable').DataTable({
+                    "scrollX": true,
+                    "scrollCollapse": true,
+                    "order": [
+                        [2, 'asc']
+                    ],
+                });
             });
-        }
+        };
 
         // Panggil fungsi loadData saat halaman dimuat
         $(document).ready(function() {
@@ -115,7 +131,9 @@
                 $.ajax({
                     type: 'POST',
                     url: 'aksi_hapus.php',
-                    data: {id: id},
+                    data: {
+                        id: id
+                    },
                     success: function(response) {
                         loadData();
                     }
@@ -129,7 +147,9 @@
             $.ajax({
                 type: 'POST',
                 url: 'aksi_sync.php',
-                data: {url: url},
+                data: {
+                    url: url
+                },
                 success: function(response) {
                     alert(response);
                     loadData();
@@ -138,4 +158,5 @@
         });
     </script>
 </body>
+
 </html>
