@@ -17,10 +17,36 @@
 
 <body>
     <div class="container">
-        <h1>GIT Pull Automation Management</h1>
+        <div class="d-none d-lg-block">
+            <h1>GIT Pull Automation Management</h1>
+        </div>
+        <nav class="navbar navbar-expand-lg d-lg-none">
+            <div class="container-fluid">
+                <small class="text-bold">GIT Pull Automation Management</small>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <hr><a class="nav-link float-end" href="#" id="tambahLinkNav">Add URL</a>
+                        </li>
+                        <li class="nav-item">
+                            <hr><a class="nav-link float-end" href="#" id="syncAllActiveNav">Sync All</a>
+                        </li>
+                        <li class="nav-item">
+                            <hr> <a class="nav-link float-end" href="#" id="clearHistoryNav">Clear History</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
         <hr />
-        <button class="btn btn-primary mb-3" id="tambahLink">Tambah URL</button>
-        <button class="btn btn-secondary mb-3" id="syncAllActive">Sync Semua (Active)</button>
+        <div class="d-none d-lg-block mb-3">
+            <button type="button" class="btn btn-primary" id="tambahLink">Add URL</button>
+            <button type="button" class="btn btn-secondary" id="syncAllActive">Sync All</button>
+            <button type="button" class="btn btn-danger float-end" id="clearHistory">Clear History</button>
+        </div>
         <div id="dataContainer"></div>
     </div>
 
@@ -105,7 +131,7 @@
         });
 
         // Tambah atau Edit
-        $('#tambahLink').click(function() {
+        $('#tambahLinkNav, #tambahLink').click(function() {
             if (checkPassword()) {
                 $('#modalFormLabel').text('Tambah URL');
                 $('#id').val('');
@@ -188,7 +214,7 @@
         });
 
         // Sync All (Active)
-        $('#syncAllActive').click(function() {
+        $('#syncAllActiveNav, #syncAllActive').click(function() {
             alert('coming soon...');
         });
 
