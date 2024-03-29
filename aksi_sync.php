@@ -2,7 +2,7 @@
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $url = $_POST['url'];
     $id = $_POST['id'];
-    // Melakukan permintaan cURL ke URL yang diberikan
+    $data = json_decode(file_get_contents('data.json'), true);
     $ch = curl_init($url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     $response = curl_exec($ch);
@@ -11,31 +11,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Memeriksa status respon
     if ($http_code == 200) {
-        // Mengembalikan pesan "Sync berhasil!"
         echo "Sync berhasil!";
-        // Mendapatkan waktu dan tanggal saat ini
         $timestamp = date('Y-m-d H:i:s');
+        foreach ($data as &$item) {
+            if ($item['id'] == $id) {
+                $item['sync'] = $timestamp;
+                if ($item['status'] == 'inactive') {
+                    $item['status'] = 'active';
+                }
+                break;
+            }
+        }
+        file_put_contents('data.json', json_encode($data, JSON_PRETTY_PRINT));
 
-        // Membuat data sync
+        // Membuat data sync untuk history
         $sync_data = [
             'datetime' => $timestamp,
             'url' => $url,
             'response' => $response
         ];
-
-        // Membaca data history dari file history.json
         $history = json_decode(file_get_contents('history.json'), true);
-
-        // Menambahkan data sync ke history
         $history[] = $sync_data;
-
-        // Menuliskan kembali data history ke file history.json
         file_put_contents('history.json', json_encode($history, JSON_PRETTY_PRINT));
     } else {
-        // Mengembalikan pesan "Sync gagal!"
         echo "Sync gagal!";
-        // Buka data.json cari ID dan Ganti status dari active ke inactive 
-        $data = json_decode(file_get_contents('data.json'), true);
+        // Jika respon gagal, ubah status ke inactive
         foreach ($data as &$item) {
             if ($item['id'] == $id) {
                 $item['status'] = 'inactive';
@@ -43,7 +43,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
         file_put_contents('data.json', json_encode($data, JSON_PRETTY_PRINT));
-        
     }
 }
 ?>

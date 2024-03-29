@@ -21,17 +21,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     } else {
         // Jika ID kosong, itu adalah operasi tambah
-        // Membuat ID unik
         $id = uniqid();
-        // Menambahkan data baru ke array
         $data[] = array(
             'id' => $id,
             'web_link' => $web_link,
-            'status' => $status
+            'status' => $status,
+            'sync' => null
         );
     }
-
-    // Menulis kembali data ke file JSON
     file_put_contents('data.json', json_encode($data, JSON_PRETTY_PRINT));
 }
-?>

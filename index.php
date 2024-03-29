@@ -62,11 +62,21 @@
                 var html = "<table id='usersTable' class='table table-striped' style='width:100%;'>";
                 html += "<thead><tr><th>ID</th><th>URL</th><th>Status</th><th>Action</th></tr></thead><tbody>";
                 $.each(data, function(key, value) {
+                    if (value.status == 'active') {
+                        status = '<span class="badge bg-success">Active</span>';
+                    } else {
+                        status = '<span class="badge bg-danger">Inactive</span>';
+                    };
+                    if (value.sync == null) {
+                        sync = '-';
+                    } else {
+                        sync = value.sync;
+                    }
                     html += "<tr>";
                     html += "<td>" + value.id + "</td>";
-                    html += "<td><a href='" + value.web_link + "' target='_blank'>" + value.web_link + "</a></td>";
-                    html += "<td>" + value.status + "</td>";
-                    html += "<td style='white-space: nowrap;'><a href='#' class='btn btn-success btn-sync' data-id='" + value.id + "' data-link='" + value.web_link + "'>Sync</a> <a href='#' class='btn btn-primary btn-edit' data-id='" + value.id + "' data-link='" + value.web_link + "' data-status='" + value.status + "'>Edit</a> <a href='#' class='btn btn-danger btn-delete' data-id='" + value.id + "'>Hapus</a></td>";
+                    html += "<td><a href='" + value.web_link + "' target='_blank'>" + value.web_link + "</a><small class='text-muted'><i> (last sync: " + sync + ")</i></small></td>";
+                    html += "<td>" + status + "</td>";
+                    html += "<td style='white-space: nowrap;'><a href='#' class='btn btn-success btn-sync' data-id='" + value.id + "' data-link='" + value.web_link + "' title='last sync: " + sync + "'>Sync</a> <a href='#' class='btn btn-primary btn-edit' data-id='" + value.id + "' data-link='" + value.web_link + "' data-status='" + value.status + "'>Edit</a> <a href='#' class='btn btn-danger btn-delete' data-id='" + value.id + "'>Hapus</a></td>";
                     html += "</tr>";
                 });
                 html += "</tbody></table>";
