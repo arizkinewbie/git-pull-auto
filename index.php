@@ -13,7 +13,7 @@
 <body>
     <div class="container">
         <h1>GIT Pull Automation Management</h1>
-        <button class="btn btn-primary mb-3" id="tambahLink">Tambah Link Web</button>
+        <button class="btn btn-primary mb-3" id="tambahLink">Tambah URL</button>
         <button class="btn btn-secondary mb-3" id="syncAllActive">Sync Semua (Active)</button>
         <div id="dataContainer"></div>
     </div>
@@ -23,7 +23,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modalFormLabel">Form Link Web</h5>
+                    <h5 class="modal-title" id="modalFormLabel">Form URL</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -60,11 +60,11 @@
         const loadData = () => {
             $.getJSON("data.json", function(data) {
                 var html = "<table id='usersTable' class='table table-striped' style='width:100%;'>";
-                html += "<thead><tr><th>ID</th><th>Link Website</th><th>Status</th><th>Action</th></tr></thead><tbody>";
+                html += "<thead><tr><th>ID</th><th>URL</th><th>Status</th><th>Action</th></tr></thead><tbody>";
                 $.each(data, function(key, value) {
                     html += "<tr>";
                     html += "<td>" + value.id + "</td>";
-                    html += "<td>" + value.web_link + "</td>";
+                    html += "<td><a href='" + value.web_link + "' target='_blank'>" + value.web_link + "</a></td>";
                     html += "<td>" + value.status + "</td>";
                     html += "<td style='white-space: nowrap;'><a href='#' class='btn btn-success btn-sync' data-link='" + value.web_link + "'>Sync</a> <a href='#' class='btn btn-primary btn-edit' data-id='" + value.id + "' data-link='" + value.web_link + "' data-status='" + value.status + "'>Edit</a> <a href='#' class='btn btn-danger btn-delete' data-id='" + value.id + "'>Hapus</a></td>";
                     html += "</tr>";
@@ -90,7 +90,7 @@
 
         // Tambah atau Edit
         $('#tambahLink').click(function() {
-            $('#modalFormLabel').text('Tambah Link Web');
+            $('#modalFormLabel').text('Tambah URL');
             $('#id').val('');
             $('#web_link').val('');
             $('#status').val('active');
@@ -102,7 +102,7 @@
             var id = $(this).data('id');
             var web_link = $(this).data('link');
             var status = $(this).data('status');
-            $('#modalFormLabel').text('Edit Link Web');
+            $('#modalFormLabel').text('Edit URL');
             $('#id').val(id);
             $('#web_link').val(web_link);
             $('#status').val(status);
